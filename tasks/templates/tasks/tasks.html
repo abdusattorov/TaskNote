@@ -1,0 +1,72 @@
+<style>
+    .container {
+        display: flex;
+        margin: 0px 50px 0px 50px;
+    }
+
+    .card-wrapper {
+        margin: 20px;
+        padding: 10px;
+        min-width: 200px;
+        border: 1px solid black;
+    }
+
+    .card {
+        min-height: 150px;
+    }
+
+    nav>ul {
+        display: flex;
+        list-style-type: none;
+    }
+
+    nav>ul>li {
+        margin-right: 10px;
+    }
+
+
+    .end {
+        margin-left: 800px;
+    }
+</style>
+
+<nav>
+    <ul>
+        {% if user.is_authenticated %}
+        <li>Logged in as <b>{{request.user|title}}</b></li>
+        <li class="end"><a href="{% url 'tasks:task-create' %}">Create task</a></li>
+        {% if user.is_staff %}
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        {% endif %}
+        <li>
+            <form action="{% url 'accounts:logout' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="logout">
+            </form>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="container">
+
+    {% for item in tasks %}
+    <div class="card-wrapper">
+        <div class="card">
+            <h2>{{item.title}}</h2>
+            <ul>
+                {% for x in item.note_set.all %}
+                <li>{{x.title}}</li>
+                {% empty %}
+                <p><i>No notes created</i></p>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="{% url 'tasks:note-create' %}">Create note</a>
+    </div>
+
+    {% empty %}
+    <h3>No tasks created</h3>
+    {% endfor %}
+
+</div>

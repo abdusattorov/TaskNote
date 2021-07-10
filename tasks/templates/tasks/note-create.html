@@ -1,0 +1,7 @@
+<h1>Create Notes</h1>
+
+<form action="{% url 'tasks:note-create' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="create">
+</form>

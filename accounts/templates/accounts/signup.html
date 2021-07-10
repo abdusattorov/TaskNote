@@ -1,0 +1,18 @@
+<h1>Sign up</h1>
+
+<form action="{% url 'accounts:signup' %}" method="POST">
+    {% csrf_token %}
+
+    <label>{{form.username.label}}</label>
+    {{form.username}}
+
+    <label>{{form.password1.label}}</label>
+    {{form.password1}}
+
+    <label>{{form.password2.label}}</label>
+    {{form.password2}}
+
+    <input type="submit" value="sign up">
+</form>
+
+<p>Already have an account? <a href="{% url 'accounts:login' %}">Login</a></p>
